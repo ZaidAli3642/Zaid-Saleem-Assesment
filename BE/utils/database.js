@@ -22,6 +22,16 @@ const get = (query = '', params = []) => {
   })
 }
 
+const update = (query, params) => {
+  return new Promise((resolve, reject) => {
+    db.run(query, params, err => {
+      if (err) reject(err)
+
+      resolve()
+    })
+  })
+}
+
 const getLatest = (columns = [], tableName) => {
   return new Promise((resolve, reject) => {
     db.get(`SELECT ${columns.toString()} FROM ${tableName} ORDER BY created_at DESC LIMIT 1`, [], (err, row) => {
@@ -36,4 +46,5 @@ module.exports = {
   insert,
   getLatest,
   get,
+  update,
 }
