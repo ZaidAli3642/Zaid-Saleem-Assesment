@@ -10,10 +10,9 @@ router.post('/register', validateRegister, async (req, res) => {
   try {
     const { get, getLatest, insert } = databaseOp
 
-    const user = await get('SELECT * FROM user WHERE email = ?', [email])
-    console.log('resulstqwe :', user)
+    const user = await get('SELECT * FROM user WHERE email = ? OR username = ?', [email, username])
 
-    if (user) return res.status(409).json({ message: 'Email already exist. Please use other email' })
+    if (user) return res.status(409).json({ message: 'Email or username already exist.' })
 
     const hash = await hashing.hash(password)
 
@@ -25,10 +24,11 @@ router.post('/register', validateRegister, async (req, res) => {
 
     delete result.password
 
-    const token = JSONtoken.sign(user)
+    const token = JSONtoken.sign(result)
 
     res.status(200).json({ message: 'data inserted', success: true, data: result, token })
   } catch (error) {
+    console.log('errororqwe :', error)
     res.status(500).json({ message: error.message, error })
   }
 })
