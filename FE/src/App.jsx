@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import Root from './app/Root'
 import configureStore from './app/redux/configureStore'
 import { PersistGate } from 'redux-persist/integration/react'
+import { Toaster } from 'react-hot-toast'
 
 const { store, persistor } = configureStore()
 
@@ -16,6 +17,7 @@ function App() {
         <PersistGate loading={null} persistor={persistor}>
           <ThemeProvider theme={theme}>
             <Root />
+            <Toaster position='bottom-right' toastOptions={{ duration: 6000 }} />
           </ThemeProvider>
         </PersistGate>
       </Provider>

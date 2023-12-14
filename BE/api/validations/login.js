@@ -2,7 +2,7 @@ const Joi = require('joi')
 
 const LoginSchema = Joi.object({
   email: Joi.string().email().required().label('Email'),
-  password: Joi.string().required().min(6).max(8).label('Password'),
+  password: Joi.string().required().min(8).label('Password'),
 })
 
 const validateLogin = (req, res, next) => {

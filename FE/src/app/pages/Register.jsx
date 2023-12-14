@@ -1,13 +1,14 @@
-import { Box, FormControl, FormHelperText } from '@mui/material'
 import React from 'react'
-import MediumHeading from '../components/MediumHeading'
-import Input from '../components/Input'
-import useForm from '../hooks/useForm'
+import { Box } from '@mui/material'
+import { useDispatch } from 'react-redux'
+
+import { register } from '../redux/reducers/auth'
 import Button from '../components/Button'
 import Form from '../components/Form'
+import Input from '../components/Input'
+import MediumHeading from '../components/MediumHeading'
 import registerSchema from '../validations/registerSchema'
-import { useDispatch } from 'react-redux'
-import { register } from '../redux/reducers/auth'
+import useForm from '../hooks/useForm'
 
 const Register = () => {
   const [errorMessages, isInvalid, inputFields, , , onChange, onSubmit] = useForm({ username: '', name: '', email: '', password: '' })

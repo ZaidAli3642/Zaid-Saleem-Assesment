@@ -14,7 +14,13 @@ const insert = {
   user: 'INSERT INTO user (name, username, email, password, created_at, updated_at) VALUES(?, ?, ?, ?, ?, ?)',
 }
 
+const update = {
+  user: 'UPDATE user SET username = ?, email = ?, name = ? WHERE id = ?',
+  updateUserWithPassword: 'UPDATE user SET username = ?, email = ?, name = ?, password = ? WHERE id = ?',
+}
+
 module.exports = {
   tables,
   insert,
+  update,
 }
