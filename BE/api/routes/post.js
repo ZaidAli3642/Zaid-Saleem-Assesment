@@ -1,10 +1,12 @@
 const { queries } = require('../../db')
 const { databaseOp } = require('../../utils')
 const auth = require('../middleware/auth')
+const validateSavePost = require('../validations/post/savePost')
+const validateUpdatePost = require('../validations/post/updatePost')
 
 const router = require('express').Router()
 
-router.post('/post', auth, async (req, res) => {
+router.post('/post', auth, validateSavePost, async (req, res) => {
   try {
     const { user_id, description } = req.body
 
@@ -22,7 +24,7 @@ router.post('/post', auth, async (req, res) => {
   }
 })
 
-router.put('/post', auth, async (req, res) => {
+router.put('/post', auth, validateUpdatePost, async (req, res) => {
   try {
     const { post_id } = req.query
     const { description } = req.body
