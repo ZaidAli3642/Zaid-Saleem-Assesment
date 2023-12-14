@@ -26,7 +26,7 @@ router.post('/register', validateRegister, async (req, res) => {
 
     const token = JSONtoken.sign(result)
 
-    res.status(200).json({ message: 'data inserted', success: true, data: result, token })
+    res.status(200).json({ message: 'data inserted', success: true, user: result, token })
   } catch (error) {
     console.log('errororqwe :', error)
     res.status(500).json({ message: error.message, error })
