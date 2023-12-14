@@ -1,7 +1,7 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 import { toast } from 'react-hot-toast'
 
-import { fetchPosts, fetchPostsFailed, fetchPostsSuccess, publishPost, publishPostFailed, publishPostSuccess } from '../reducers/feed'
+import { editPost, editPostFailed, editPostSuccess, fetchPosts, fetchPostsFailed, fetchPostsSuccess, publishPost, publishPostFailed, publishPostSuccess, setIsEdit } from '../reducers/feed'
 import { errorMessage } from '../../utils/error'
 import { errorConfig, successConfig } from '../../config/toast'
 import feed from '../../api/feed'
@@ -40,7 +40,26 @@ function* getPosts(action) {
   }
 }
 
+function* modifyPost(action) {
+  const { token } = yield select(state => state.auth)
+  try {
+    const { data, post_id } = action.payload
+
+    const response = yield call(feed(token).editPost, data, post_id)
+
+    yield put(editPostSuccess({ post: response.post }))
+    yield put(setIsEdit({ isEdit: false }))
+  } catch (error) {
+    const message = errorMessage(error)
+
+    toast(message, errorConfig)
+
+    yield put(editPostFailed({ error }))
+  }
+}
+
 export function* feedSaga() {
   yield takeEvery(publishPost.type, savePost)
   yield takeEvery(fetchPosts.type, getPosts)
+  yield takeEvery(editPost.type, modifyPost)
 }

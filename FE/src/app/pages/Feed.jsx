@@ -1,22 +1,37 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, IconButton } from '@mui/material'
-import { Send } from '@mui/icons-material'
+import { Send, Edit } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Post from '../components/Post'
 import Input from '../components/Input'
 import useForm from '../hooks/useForm'
 import postSchema from '../validations/postSchema'
-import { fetchPosts, publishPost } from '../redux/reducers/feed'
+import { fetchPosts, publishPost, setIsEdit, editPost as editPostAction } from '../redux/reducers/feed'
 
 const Feed = () => {
   const [errorMessages, isInvalid, inputFields, , , onChange, onSubmit] = useForm({ description: '' })
-  const { posts } = useSelector(state => state.feed)
+  const [post, setPost] = useState({})
+  const { posts, isEditPost } = useSelector(state => state.feed)
+  const { userInfo } = useSelector(state => state.auth)
   const dispatch = useDispatch()
 
   const sendPost = () => {
     onSubmit(postSchema, () => {
       dispatch(publishPost({ data: inputFields }))
+    })
+  }
+
+  const handleEditPost = post => {
+    console.log('postst :', post)
+    dispatch(setIsEdit({ isEdit: !isEditPost }))
+    setPost(post)
+    onChange({ target: { value: post.description, name: 'description' } })
+  }
+
+  const editPost = () => {
+    onSubmit(postSchema, () => {
+      dispatch(editPostAction({ data: inputFields, post_id: post.id }))
     })
   }
 
@@ -29,13 +44,13 @@ const Feed = () => {
       <Box width={'600px'}>
         <Box width={'100%'} display='flex' alignItems={'center'}>
           <Input multiline placeholder={'Something in your mind?'} onChange={onChange} name='description' value={inputFields?.description} error={isInvalid} helperText={errorMessages?.description} />
-          <IconButton onClick={sendPost} size='small' sx={{ ml: 2, backgroundColor: '#fff', padding: '10px', ':hover': { backgroundColor: '#e6e6e6' } }}>
-            <Send />
+          <IconButton onClick={isEditPost ? editPost : sendPost} size='small' sx={{ ml: 2, backgroundColor: '#fff', padding: '10px', ':hover': { backgroundColor: '#e6e6e6' } }}>
+            {isEditPost ? <Edit /> : <Send />}
           </IconButton>
         </Box>
 
         {posts?.map(post => (
-          <Post data={post} key={post.id} />
+          <Post data={post} key={post.id} userInfo={userInfo} onEditPost={handleEditPost} />
         ))}
       </Box>
     </Box>

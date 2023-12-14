@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
-import { Card, CardActions, CardContent, CardHeader, IconButton, Avatar, Typography, Menu, MenuItem } from '@mui/material'
+import React from 'react'
+import { Card, CardContent, CardHeader, IconButton, Avatar, Typography, Menu, MenuItem } from '@mui/material'
 import { MoreVert } from '@mui/icons-material'
+
 import { postTime } from '../utils/date'
 
-const Post = ({ data }) => {
+const Post = ({ data, userInfo, onEditPost }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
   const handleClick = event => {
@@ -12,10 +13,11 @@ const Post = ({ data }) => {
   const handleClose = () => {
     setAnchorEl(null)
   }
+
   const {
     description,
     updated_at,
-    user: { name, color },
+    user: { name, color, id },
   } = data
 
   return (
@@ -27,21 +29,30 @@ const Post = ({ data }) => {
           </Avatar>
         }
         action={
-          <IconButton onClick={e => handleClick(e)} aria-label='settings'>
-            <MoreVert />
-            <Menu
-              style={{ minWidth: 'max-content' }}
-              id='basic-menu'
-              anchorEl={anchorEl}
-              open={open}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <MenuItem onClick={handleClose}>Edit</MenuItem>
-              <MenuItem onClick={handleClose}>Delete</MenuItem>
-            </Menu>
-          </IconButton>
+          userInfo.id === id ? (
+            <IconButton onClick={e => handleClick(e)} aria-label='settings'>
+              <MoreVert />
+              <Menu
+                style={{ minWidth: 'max-content' }}
+                id='basic-menu'
+                anchorEl={anchorEl}
+                open={open}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem
+                  onClick={() => {
+                    onEditPost(data)
+                    handleClose()
+                  }}
+                >
+                  Edit
+                </MenuItem>
+                <MenuItem onClick={handleClose}>Delete</MenuItem>
+              </Menu>
+            </IconButton>
+          ) : null
         }
         title={name}
         subheader={postTime(updated_at)}
@@ -51,10 +62,6 @@ const Post = ({ data }) => {
           {description}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label='add to favorites'>{/* <FavoriteIcon /> */}</IconButton>
-        <IconButton aria-label='share'>{/* <ShareIcon /> */}</IconButton>
-      </CardActions>
     </Card>
   )
 }

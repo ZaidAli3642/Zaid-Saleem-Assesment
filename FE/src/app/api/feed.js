@@ -23,6 +23,15 @@ const feed = authToken => {
         throw error
       }
     },
+    editPost: async (data, post_id) => {
+      try {
+        const response = await client.put(`/post?post_id=${post_id}`, data, { headers })
+
+        return response.data
+      } catch (error) {
+        throw error
+      }
+    },
   }
 }
 

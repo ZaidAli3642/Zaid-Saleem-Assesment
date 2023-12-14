@@ -7,6 +7,7 @@ const feedSlice = createSlice({
     loading: false,
     postsLoading: false,
     error: null,
+    isEditPost: false,
   },
   reducers: {
     fetchPosts: (state, action) => {
@@ -36,8 +37,25 @@ const feedSlice = createSlice({
       state.loading = false
       state.error = action.payload.error
     },
+    editPost: (state, action) => {
+      state.loading = true
+      state.error = null
+    },
+    editPostSuccess: (state, action) => {
+      state.loading = false
+      state.error = null
+      const updatedPost = action.payload.post
+      state.posts = state.posts.map(post => (post.id === updatedPost.id ? updatedPost : post))
+    },
+    editPostFailed: (state, action) => {
+      state.loading = false
+      state.error = action.payload.error
+    },
+    setIsEdit: (state, action) => {
+      state.isEditPost = action.payload.isEdit
+    },
   },
 })
 
-export const { fetchPostsFailed, fetchPostsSuccess, fetchPosts, publishPost, publishPostFailed, publishPostSuccess } = feedSlice.actions
+export const { editPost, editPostFailed, editPostSuccess, setIsEdit, fetchPostsFailed, fetchPostsSuccess, fetchPosts, publishPost, publishPostFailed, publishPostSuccess } = feedSlice.actions
 export default feedSlice.reducer
