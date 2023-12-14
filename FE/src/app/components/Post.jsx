@@ -4,7 +4,7 @@ import { MoreVert } from '@mui/icons-material'
 
 import { postTime } from '../utils/date'
 
-const Post = ({ data, userInfo, onEditPost }) => {
+const Post = ({ data, userInfo, onEditPost, onDeletePost }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
   const handleClick = event => {
@@ -49,7 +49,14 @@ const Post = ({ data, userInfo, onEditPost }) => {
                 >
                   Edit
                 </MenuItem>
-                <MenuItem onClick={handleClose}>Delete</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    onDeletePost(data)
+                    handleClose()
+                  }}
+                >
+                  Delete
+                </MenuItem>
               </Menu>
             </IconButton>
           ) : null

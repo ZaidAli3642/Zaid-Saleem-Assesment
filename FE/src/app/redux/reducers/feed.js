@@ -51,11 +51,28 @@ const feedSlice = createSlice({
       state.loading = false
       state.error = action.payload.error
     },
+    deletePost: (state, action) => {
+      state.loading = true
+      state.error = null
+    },
+    deletePostSuccess: (state, action) => {
+      state.loading = false
+      state.error = null
+      const deletedPost = action.payload.post
+      const posts = [...state.posts]
+      const index = posts.findIndex(post => post.id === deletedPost.id)
+      posts.splice(index, 1)
+      state.posts = posts
+    },
+    deletePostFailed: (state, action) => {
+      state.loading = false
+      state.error = action.payload.error
+    },
     setIsEdit: (state, action) => {
       state.isEditPost = action.payload.isEdit
     },
   },
 })
 
-export const { editPost, editPostFailed, editPostSuccess, setIsEdit, fetchPostsFailed, fetchPostsSuccess, fetchPosts, publishPost, publishPostFailed, publishPostSuccess } = feedSlice.actions
+export const { deletePost, deletePostFailed, deletePostSuccess, editPost, editPostFailed, editPostSuccess, setIsEdit, fetchPostsFailed, fetchPostsSuccess, fetchPosts, publishPost, publishPostFailed, publishPostSuccess } = feedSlice.actions
 export default feedSlice.reducer

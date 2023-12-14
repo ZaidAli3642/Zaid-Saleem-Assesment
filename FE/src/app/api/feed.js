@@ -32,6 +32,15 @@ const feed = authToken => {
         throw error
       }
     },
+    deletePost: async post_id => {
+      try {
+        const response = await client.delete(`/post?post_id=${post_id}`, { headers })
+
+        return response.data
+      } catch (error) {
+        throw error
+      }
+    },
   }
 }
 

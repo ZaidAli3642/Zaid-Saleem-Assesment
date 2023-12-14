@@ -1,7 +1,7 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 import { toast } from 'react-hot-toast'
 
-import { editPost, editPostFailed, editPostSuccess, fetchPosts, fetchPostsFailed, fetchPostsSuccess, publishPost, publishPostFailed, publishPostSuccess, setIsEdit } from '../reducers/feed'
+import { deletePost, deletePostFailed, deletePostSuccess, editPost, editPostFailed, editPostSuccess, fetchPosts, fetchPostsFailed, fetchPostsSuccess, publishPost, publishPostFailed, publishPostSuccess, setIsEdit } from '../reducers/feed'
 import { errorMessage } from '../../utils/error'
 import { errorConfig, successConfig } from '../../config/toast'
 import feed from '../../api/feed'
@@ -49,6 +49,7 @@ function* modifyPost(action) {
 
     yield put(editPostSuccess({ post: response.post }))
     yield put(setIsEdit({ isEdit: false }))
+    toast('Congrats! your post is updated.', successConfig)
   } catch (error) {
     const message = errorMessage(error)
 
@@ -58,8 +59,28 @@ function* modifyPost(action) {
   }
 }
 
+function* removePost(action) {
+  const { token } = yield select(state => state.auth)
+  try {
+    const { data, post_id } = action.payload
+
+    yield call(feed(token).deletePost, post_id)
+
+    yield put(deletePostSuccess({ post: data }))
+
+    toast('Congrats! your post is deleted.', successConfig)
+  } catch (error) {
+    const message = errorMessage(error)
+
+    toast(message, errorConfig)
+
+    yield put(deletePostFailed({ error }))
+  }
+}
+
 export function* feedSaga() {
   yield takeEvery(publishPost.type, savePost)
   yield takeEvery(fetchPosts.type, getPosts)
   yield takeEvery(editPost.type, modifyPost)
+  yield takeEvery(deletePost.type, removePost)
 }

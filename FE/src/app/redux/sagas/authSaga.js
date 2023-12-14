@@ -1,9 +1,10 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
+import { toast } from 'react-hot-toast'
+
+import { errorConfig, successConfig } from '../../config/toast'
+import { errorMessage } from '../../utils/error'
 import { failed, register as registerAction, login as loginAction, updateUser as updateUserAction, success } from '../reducers/auth'
 import auth from '../../api/auth'
-import { toast } from 'react-hot-toast'
-import { errorMessage } from '../../utils/error'
-import { errorConfig, successConfig } from '../../config/toast'
 
 function* register(action) {
   try {

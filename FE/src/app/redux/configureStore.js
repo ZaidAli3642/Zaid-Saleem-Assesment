@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
-import createSagaMiddleware from 'redux-saga'
 import { persistStore, persistReducer } from 'redux-persist'
+import createSagaMiddleware from 'redux-saga'
 import storage from 'redux-persist/lib/storage'
 
 import reducers from './combineReducers'

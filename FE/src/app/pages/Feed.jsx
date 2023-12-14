@@ -7,7 +7,7 @@ import Post from '../components/Post'
 import Input from '../components/Input'
 import useForm from '../hooks/useForm'
 import postSchema from '../validations/postSchema'
-import { fetchPosts, publishPost, setIsEdit, editPost as editPostAction } from '../redux/reducers/feed'
+import { fetchPosts, publishPost, setIsEdit, editPost as editPostAction, deletePost } from '../redux/reducers/feed'
 
 const Feed = () => {
   const [errorMessages, isInvalid, inputFields, , , onChange, onSubmit] = useForm({ description: '' })
@@ -23,7 +23,6 @@ const Feed = () => {
   }
 
   const handleEditPost = post => {
-    console.log('postst :', post)
     dispatch(setIsEdit({ isEdit: !isEditPost }))
     setPost(post)
     onChange({ target: { value: post.description, name: 'description' } })
@@ -32,6 +31,12 @@ const Feed = () => {
   const editPost = () => {
     onSubmit(postSchema, () => {
       dispatch(editPostAction({ data: inputFields, post_id: post.id }))
+    })
+  }
+
+  const removePost = post => {
+    onSubmit(null, () => {
+      dispatch(deletePost({ data: post, post_id: post.id }))
     })
   }
 
@@ -50,7 +55,7 @@ const Feed = () => {
         </Box>
 
         {posts?.map(post => (
-          <Post data={post} key={post.id} userInfo={userInfo} onEditPost={handleEditPost} />
+          <Post data={post} key={post.id} userInfo={userInfo} onEditPost={handleEditPost} onDeletePost={removePost} />
         ))}
       </Box>
     </Box>

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Box } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import { register, updateUser } from '../redux/reducers/auth'
 import Button from '../components/Button'
@@ -9,7 +10,6 @@ import Input from '../components/Input'
 import MediumHeading from '../components/MediumHeading'
 import useForm from '../hooks/useForm'
 import profileSchema from '../validations/profileSchema'
-import { useNavigate } from 'react-router-dom'
 
 const Profile = () => {
   const [errorMessages, isInvalid, inputFields, setInputFields, , onChange, onSubmit] = useForm({ username: '', name: '', email: '', password: '' })

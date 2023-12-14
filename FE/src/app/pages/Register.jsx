@@ -2,6 +2,7 @@ import React from 'react'
 import { Box } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import randomcolor from 'randomcolor'
+import { useNavigate } from 'react-router-dom'
 
 import { register } from '../redux/reducers/auth'
 import Button from '../components/Button'
@@ -10,7 +11,6 @@ import Input from '../components/Input'
 import MediumHeading from '../components/MediumHeading'
 import registerSchema from '../validations/registerSchema'
 import useForm from '../hooks/useForm'
-import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
   const [errorMessages, isInvalid, inputFields, , , onChange, onSubmit] = useForm({ username: '', name: '', email: '', password: '' })
