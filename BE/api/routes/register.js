@@ -5,7 +5,7 @@ const { hashing, databaseOp, JSONtoken } = require('../../utils')
 const { queries } = require('../../db')
 
 router.post('/register', validateRegister, async (req, res) => {
-  const { username, name, email, password } = req.body
+  const { username, name, email, password, color } = req.body
 
   try {
     const { get, getLatest, insert } = databaseOp
@@ -18,7 +18,7 @@ router.post('/register', validateRegister, async (req, res) => {
 
     const UTCTime = new Date().getTime()
 
-    await insert(queries.insert.user, [name, username, email, hash, UTCTime, UTCTime])
+    await insert(queries.insert.user, [name, username, email, hash, UTCTime, UTCTime, color])
 
     const result = await getLatest(['*'], 'user')
 

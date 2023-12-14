@@ -22,7 +22,27 @@ const get = (query = '', params = []) => {
   })
 }
 
+const all = (query = '', params = []) => {
+  return new Promise((resolve, reject) => {
+    db.all(query, params, (err, row) => {
+      if (err) reject(err)
+
+      resolve(row)
+    })
+  })
+}
+
 const update = (query, params) => {
+  return new Promise((resolve, reject) => {
+    db.run(query, params, err => {
+      if (err) reject(err)
+
+      resolve()
+    })
+  })
+}
+
+const remove = (query, params) => {
   return new Promise((resolve, reject) => {
     db.run(query, params, err => {
       if (err) reject(err)
@@ -47,4 +67,6 @@ module.exports = {
   getLatest,
   get,
   update,
+  all,
+  remove,
 }

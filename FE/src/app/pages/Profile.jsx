@@ -9,10 +9,12 @@ import Input from '../components/Input'
 import MediumHeading from '../components/MediumHeading'
 import useForm from '../hooks/useForm'
 import profileSchema from '../validations/profileSchema'
+import { useNavigate } from 'react-router-dom'
 
 const Profile = () => {
   const [errorMessages, isInvalid, inputFields, setInputFields, , onChange, onSubmit] = useForm({ username: '', name: '', email: '', password: '' })
   const { userInfo } = useSelector(state => state.auth)
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const handleUpdate = () => {
@@ -42,6 +44,7 @@ const Profile = () => {
             <Input placeholder={'Password'} onChange={onChange} name='password' type='password' value={inputFields?.password} error={isInvalid} helperText={errorMessages?.password} />
             <Button title='Update' />
           </Form>
+          <Button onClick={() => navigate('/feed')} title='Go Back' />
         </Box>
       </Box>
     </Box>

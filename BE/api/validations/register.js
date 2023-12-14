@@ -5,6 +5,7 @@ const RegisterSchema = Joi.object({
   name: Joi.string().label('Name'),
   email: Joi.string().email().label('Email'),
   password: Joi.string().min(8).label('Password'),
+  color: Joi.string().label('Color'),
 })
 
 const validateRegister = (req, res, next) => {

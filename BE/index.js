@@ -3,6 +3,7 @@ const Cors = require('cors')
 const RegisterRoute = require('./api/routes/register')
 const LoginRoute = require('./api/routes/login')
 const UserRoute = require('./api/routes/user')
+const PostRoute = require('./api/routes/post')
 
 const app = express()
 
@@ -13,6 +14,7 @@ app.use(Cors())
 app.use('/api', LoginRoute)
 app.use('/api', RegisterRoute)
 app.use('/api', UserRoute)
+app.use('/api', PostRoute)
 
 const PORT = process.env.PORT || 3000
 

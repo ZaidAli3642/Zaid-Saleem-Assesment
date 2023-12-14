@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import { login } from '../redux/reducers/auth'
 import Button from '../components/Button'
@@ -13,6 +14,7 @@ import useForm from '../hooks/useForm'
 const Login = () => {
   const dispatch = useDispatch()
   const [errorMessages, isInvalid, inputFields, , , onChange, onSubmit] = useForm({ email: '', password: '' })
+  const navigate = useNavigate()
 
   const handleLogin = () => {
     console.log('input fields : ', inputFields)
@@ -34,7 +36,7 @@ const Login = () => {
         </Box>
         <span className='footer-text'></span>
         <span className='signup-text'>
-          No account? <span>Signup</span>
+          No account? <span onClick={() => navigate('/register')}>Signup</span>
         </span>
       </Box>
     </Box>
