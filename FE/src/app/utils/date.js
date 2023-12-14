@@ -9,5 +9,5 @@ export const postTime = timestamp => {
   }
 
   // Formatting the date to the desired format
-  return date.toLocaleDateString('en-US', options)
+  return date.toLocaleDateString('en-US', { ...options, hour: 'numeric', minute: 'numeric' })
 }

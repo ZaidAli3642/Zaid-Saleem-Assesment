@@ -53,6 +53,7 @@ const get = {
             )) posts
           FROM post t1 INNER JOIN user t2 
           ON t2.id = t1.user_id
+          ORDER BY t1.created_at
           `,
 }
 

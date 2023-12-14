@@ -1,9 +1,10 @@
 const { queries } = require('../../db')
 const { databaseOp } = require('../../utils')
+const auth = require('../middleware/auth')
 
 const router = require('express').Router()
 
-router.post('/post', async (req, res) => {
+router.post('/post', auth, async (req, res) => {
   try {
     const { user_id, description } = req.body
 
@@ -21,7 +22,7 @@ router.post('/post', async (req, res) => {
   }
 })
 
-router.put('/post', async (req, res) => {
+router.put('/post', auth, async (req, res) => {
   try {
     const { post_id } = req.query
     const { description } = req.body
@@ -40,7 +41,7 @@ router.put('/post', async (req, res) => {
   }
 })
 
-router.delete('/post', async (req, res) => {
+router.delete('/post', auth, async (req, res) => {
   try {
     const { post_id } = req.query
 
@@ -52,7 +53,7 @@ router.delete('/post', async (req, res) => {
   }
 })
 
-router.get('/posts', async (req, res) => {
+router.get('/posts', auth, async (req, res) => {
   try {
     const posts = await databaseOp.all(queries.get.allPosts)
 
