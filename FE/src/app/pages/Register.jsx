@@ -15,14 +15,23 @@ import useForm from '../hooks/useForm'
 const Register = () => {
   const [errorMessages, isInvalid, inputFields, , , onChange, onSubmit] = useForm({ username: '', name: '', email: '', password: '' })
   const dispatch = useDispatch()
-  console.log('randomcolorrandomcolorrandomcolor :', randomcolor())
   const navigate = useNavigate()
 
   const handleRegister = () => {
     onSubmit(
       registerSchema,
       () => {
-        dispatch(register({ data: { ...inputFields, color: randomcolor() } }))
+        dispatch(
+          register({
+            data: {
+              ...inputFields,
+              color: randomcolor({
+                luminosity: 'dark',
+                format: 'rgba',
+              }),
+            },
+          }),
+        )
       },
       false,
     )

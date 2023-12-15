@@ -4,6 +4,40 @@ import { MoreVert } from '@mui/icons-material'
 
 import { postTime } from '../utils/date'
 
+const PostOptions = ({ handleClick, open, anchorEl, onEditPost, handleClose, onDeletePost }) => {
+  return (
+    <IconButton onClick={e => handleClick(e)} aria-label='settings'>
+      <MoreVert />
+      <Menu
+        style={{ minWidth: 'max-content' }}
+        id='basic-menu'
+        anchorEl={anchorEl}
+        open={open}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            onEditPost()
+            handleClose()
+          }}
+        >
+          Edit
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            onDeletePost()
+            handleClose()
+          }}
+        >
+          Delete
+        </MenuItem>
+      </Menu>
+    </IconButton>
+  )
+}
+
 const Post = ({ data, userInfo, onEditPost, onDeletePost }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
@@ -28,39 +62,7 @@ const Post = ({ data, userInfo, onEditPost, onDeletePost }) => {
             {name?.charAt(0).toUpperCase()}
           </Avatar>
         }
-        action={
-          userInfo.id === id ? (
-            <IconButton onClick={e => handleClick(e)} aria-label='settings'>
-              <MoreVert />
-              <Menu
-                style={{ minWidth: 'max-content' }}
-                id='basic-menu'
-                anchorEl={anchorEl}
-                open={open}
-                MenuListProps={{
-                  'aria-labelledby': 'basic-button',
-                }}
-              >
-                <MenuItem
-                  onClick={() => {
-                    onEditPost(data)
-                    handleClose()
-                  }}
-                >
-                  Edit
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    onDeletePost(data)
-                    handleClose()
-                  }}
-                >
-                  Delete
-                </MenuItem>
-              </Menu>
-            </IconButton>
-          ) : null
-        }
+        action={userInfo.role === 'admin' || userInfo.id === id ? <PostOptions anchorEl={anchorEl} handleClick={handleClick} handleClose={handleClose} onDeletePost={() => onDeletePost(data)} onEditPost={() => onEditPost(data)} open={open} /> : null}
         title={name}
         subheader={postTime(updated_at)}
       />

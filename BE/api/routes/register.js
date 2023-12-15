@@ -18,7 +18,7 @@ router.post('/register', validateRegister, async (req, res) => {
 
     const UTCTime = new Date().getTime()
 
-    await insert(queries.insert.user, [name, username, email, hash, UTCTime, UTCTime, color])
+    await insert(queries.insert.user, [name, username, email, hash, UTCTime, UTCTime, color, 'user'])
 
     const result = await getLatest(['*'], 'user')
 

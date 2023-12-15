@@ -5,8 +5,6 @@ const auth = (req, res, next) => {
   const token = authToken?.split(' ')[1]
   const result = JSONtoken.verify(token)
 
-  console.log('tokeneee : ', token, result)
-
   if (!authToken || !result) return res.status(401).json({ message: 'User not authenticated.' })
 
   next()

@@ -1,5 +1,5 @@
 const tables = {
-  user: `CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, username TEXT UNIQUE, email TEXT UNIQUE, password TEXT, created_at INTEGER, updated_at INTEGER, color TEXT)`,
+  user: `CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, username TEXT UNIQUE, email TEXT UNIQUE, password TEXT, created_at INTEGER, updated_at INTEGER, color TEXT, role TEXT)`,
   posts: `CREATE TABLE IF NOT EXISTS post (
     id INTEGER PRIMARY KEY AUTOINCREMENT, 
     description TEXT, 
@@ -11,7 +11,7 @@ const tables = {
 }
 
 const insert = {
-  user: 'INSERT INTO user (name, username, email, password, created_at, updated_at, color) VALUES(?, ?, ?, ?, ?, ?, ?)',
+  user: 'INSERT INTO user (name, username, email, password, created_at, updated_at, color, role) VALUES(?, ?, ?, ?, ?, ?, ?, ?)',
   post: `INSERT INTO post (description, created_at, updated_at, user_id) values(?, ?, ?, ?)`,
 }
 
@@ -27,7 +27,7 @@ const get = {
             'created_at', t1.created_at,
             'updated_at', t1.updated_at,
             'description', t1.description, 
-            'user', json_object('id', t2.id, 'name', t2.name, 'username', t2.username, 'email', t2.email, 'color', t2.color)           
+            'user', json_object('id', t2.id, 'name', t2.name, 'username', t2.username, 'email', t2.email, 'color', t2.color, 'role', t2.role)           
             ) col
           FROM post t1 INNER JOIN user t2 
           ON t2.id = t1.user_id
@@ -38,7 +38,7 @@ const get = {
             'created_at', t1.created_at,
             'updated_at', t1.updated_at,
             'description', t1.description, 
-            'user', json_object('id', t2.id, 'name', t2.name, 'username', t2.username, 'email', t2.email, 'color', t2.color)           
+            'user', json_object('id', t2.id, 'name', t2.name, 'username', t2.username, 'email', t2.email, 'color', t2.color, 'role', t2.role)           
             ) col
           FROM post t1 INNER JOIN user t2 
           ON t2.id = t1.user_id
@@ -49,7 +49,7 @@ const get = {
             'created_at', t1.created_at,
             'updated_at', t1.updated_at,
             'description', t1.description, 
-            'user', json_object('id', t2.id, 'name', t2.name, 'username', t2.username, 'email', t2.email, 'color', t2.color)           
+            'user', json_object('id', t2.id, 'name', t2.name, 'username', t2.username, 'email', t2.email, 'color', t2.color, 'role', t2.role)           
             )) posts
           FROM post t1 INNER JOIN user t2 
           ON t2.id = t1.user_id
